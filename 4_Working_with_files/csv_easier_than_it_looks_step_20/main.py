@@ -3,25 +3,18 @@ import csv
 
 def condense_csv(filename, id_name):
     with open(file=filename, mode='r', encoding='utf-8') as file:
-        data = csv.reader(file)
-
-        temp, temp_list = {}, []
-        for row in data:
-            if temp.get(id_name, False) == row[0]:
-                temp[row[1]] = row[2]
+        temp = {}
+        for object_id, property_obj, value_obj in csv.reader(file):
+            if object_id not in temp:
+                temp[object_id] = {id_name: object_id, property_obj: value_obj}
             else:
-                if any(temp):
-                    temp_list.append(temp.copy())
-                    temp.clear()
-                temp[id_name] = row[0]
-                temp[row[1]] = row[2]
-        else:
-            temp_list.append(temp)
+                temp[object_id][property_obj] = value_obj
 
     with open('condensed.csv', mode='w', encoding='utf-8') as save_file:
-        writer = csv.DictWriter(save_file, fieldnames=temp_list[0].keys(), delimiter=',')
+        writer = csv.DictWriter(save_file, fieldnames=temp[object_id].keys(), delimiter=',')
         writer.writeheader()
-        writer.writerows(temp_list)
+        for key, val in temp.items():
+            writer.writerow(val)
 
 
 condense_csv('file.csv', id_name='ID')
