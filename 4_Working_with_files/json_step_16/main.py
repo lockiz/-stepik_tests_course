@@ -2,15 +2,13 @@ import json
 
 
 with open('food_services.json', mode='r', encoding='UTF-8') as json_file:
-    rows = json.load(json_file)
-    areas, institution = {}, {}
-
+    rows = sorted(list(json.load(json_file)), key=lambda x: int(x['SeatsCount']))
+    result = {}
     for row in rows:
-        areas.setdefault(row['District'], 0)
-        areas[row['District']] += 1
-        if row['IsNetObject'] == 'да':
-            institution.setdefault(row['OperatingCompany'], 0)
-            institution[row['OperatingCompany']] += 1
+        result[row['TypeObject']] = {
+            'name': row['Name'],
+            'SeatsCount': str(row['SeatsCount'])
+        }
 
-print(*max(areas.items(), key=lambda x: x[1]), sep=': ')
-print(*max(institution.items(), key=lambda x: x[1]), sep=': ')
+    for key, val in sorted(result.items()):
+        print(key, ', '.join(list(val.values())), sep=': ')
