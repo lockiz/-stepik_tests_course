@@ -1,6 +1,3 @@
-import json
-
-
 with open('food_services.json', mode='r', encoding='UTF-8') as json_file:
     rows = sorted(list(json.load(json_file)), key=lambda x: int(x['SeatsCount']))
     result = {}
