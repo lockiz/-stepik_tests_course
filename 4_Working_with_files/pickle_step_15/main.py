@@ -10,4 +10,4 @@ with open(file_name, mode='rb') as file_pkl:
     if isinstance(data, dict):
         print(answer[sum(nums) == check_sum])
     else:
-        print(answer[(min(nums) * max(nums) if any(nums) else 0) == check_sum])
+        print(answer[min(nums, default=0) * max(nums, default=0) == check_sum])
