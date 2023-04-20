@@ -11,9 +11,3 @@ with open(file_name, mode='rb') as file_pkl:
         print(answer[sum(nums) == check_sum])
     else:
         print(answer[(min(nums) * max(nums) if any(nums) else 0) == check_sum])
-
-
-nums = []
-print(min(nums) * max(nums) if any(nums) else 0)
-
-print(any([]))
